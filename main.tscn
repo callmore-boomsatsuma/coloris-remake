@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cwyk6n0bceh5e"]
+
+[ext_resource type="SpriteFrames" uid="uid://bn4nx7xj4qmuj" path="res://toad/toad_frames.tres" id="1_ig7tw"]
+
+[node name="Node2D" type="Node2D" unique_id=507800967]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=483503090]
+sprite_frames = ExtResource("1_ig7tw")
+animation = &"hopping"
+frame_progress = 0.50413936

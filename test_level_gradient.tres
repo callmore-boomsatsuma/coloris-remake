@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelGradient" format=3 uid="uid://b50yp131ly8tw"]
+
+[ext_resource type="Script" uid="uid://4ybes5rqtte4" path="res://scripts/level_gradient.gd" id="1_isjps"]
+
+[sub_resource type="Gradient" id="Gradient_u52ul"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 1, 0, 1, 0.14331836, 0.77612615, 0.14061618, 1, 0.2911863, 0, 0.99999994, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 2
+
+[resource]
+script = ExtResource("1_isjps")
+gradient = SubResource("Gradient_u52ul")
+colors = 4
+metadata/_custom_type_script = "uid://4ybes5rqtte4"

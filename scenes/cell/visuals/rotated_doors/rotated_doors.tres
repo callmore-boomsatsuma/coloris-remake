@@ -1,0 +1,144 @@
+[gd_resource type="VisualShader" format=3 uid="uid://c3lhjv87y6va0"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_pbry3"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_kgre7"]
+expanded_output_ports = [0]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_inbrb"]
+default_input_values = [0, 0.0, 1, 2.0]
+operator = 3
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_nq0xw"]
+default_input_values = [0, 0.0, 1, 0.0, 2, 0.125]
+function = 1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_fjyfc"]
+output_port_for_preview = 0
+operator = 7
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_16yxf"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_qm3nj"]
+function = 31
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_6fhkx"]
+parameter_name = "Rotated"
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_pbry3"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_kgre7"]
+parameter_name = "BarPosition"
+hint = 1
+default_value = 0.294
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_kgre7"]
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_8e3nh"]
+output_port_for_preview = 0
+default_input_values = [0, 0.5, 1, 0.0, 2, 0.125]
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_qs8k2"]
+output_port_for_preview = 0
+default_input_values = [0, 0.495, 1, 0.5, 2, 0.125]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_16yxf"]
+default_input_values = [0, 0.5, 1, 0.0]
+operator = 1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qm3nj"]
+output_port_for_preview = 0
+operator = 7
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_6fhkx"]
+output_port_for_preview = 0
+operator = 7
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_mear7"]
+output_port_for_preview = 0
+function = 31
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_inbrb"]
+default_input_values = [0, 0.0, 1, 0.0, 2, 0.125]
+function = 1
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_nq0xw"]
+parameter_name = "BarHeight"
+hint = 1
+default_value_enabled = true
+default_value = 0.1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_8e3nh"]
+operator = 7
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qs8k2"]
+default_input_values = [0, 0.0, 1, 2.0]
+operator = 3
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_v5f5o"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_4i1gl"]
+operator = 1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_sicf5"]
+default_input_values = [0, 0.0, 1, 1.0]
+
+[resource]
+mode = 1
+flags/light_only = false
+preview_params/BarPosition = "0.250000011875"
+nodes/fragment/0/position = Vector2(1560, 240)
+nodes/fragment/2/node = SubResource("VisualShaderNodeFloatParameter_kgre7")
+nodes/fragment/2/position = Vector2(-1520, -200)
+nodes/fragment/3/node = SubResource("VisualShaderNodeCompare_inbrb")
+nodes/fragment/3/position = Vector2(-280, -140)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatParameter_nq0xw")
+nodes/fragment/4/position = Vector2(-1520, 60)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatOp_8e3nh")
+nodes/fragment/5/position = Vector2(1240, 240)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_qs8k2")
+nodes/fragment/6/position = Vector2(-960, 20)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatOp_v5f5o")
+nodes/fragment/7/position = Vector2(-980, -180)
+nodes/fragment/8/node = SubResource("VisualShaderNodeFloatOp_4i1gl")
+nodes/fragment/8/position = Vector2(-500, -120)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_sicf5")
+nodes/fragment/9/position = Vector2(-1220, -60)
+nodes/fragment/10/node = SubResource("VisualShaderNodeInput_pbry3")
+nodes/fragment/10/position = Vector2(880, 440)
+nodes/fragment/11/node = SubResource("VisualShaderNodeInput_kgre7")
+nodes/fragment/11/position = Vector2(-1020, 380)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatOp_inbrb")
+nodes/fragment/12/position = Vector2(-720, -160)
+nodes/fragment/13/node = SubResource("VisualShaderNodeCompare_nq0xw")
+nodes/fragment/13/position = Vector2(-80, 100)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_fjyfc")
+nodes/fragment/15/position = Vector2(200, -100)
+nodes/fragment/16/node = SubResource("VisualShaderNodeFloatFunc_16yxf")
+nodes/fragment/16/position = Vector2(-1220, -180)
+nodes/fragment/17/node = SubResource("VisualShaderNodeFloatFunc_qm3nj")
+nodes/fragment/17/position = Vector2(-280, 140)
+nodes/fragment/18/node = SubResource("VisualShaderNodeBooleanParameter_6fhkx")
+nodes/fragment/18/position = Vector2(-1520, 360)
+nodes/fragment/19/node = SubResource("VisualShaderNodeSwitch_pbry3")
+nodes/fragment/19/position = Vector2(-660, 340)
+nodes/fragment/20/node = SubResource("VisualShaderNodeSwitch_kgre7")
+nodes/fragment/20/position = Vector2(-660, 520)
+nodes/fragment/21/node = SubResource("VisualShaderNodeCompare_8e3nh")
+nodes/fragment/21/position = Vector2(-220, 420)
+nodes/fragment/23/node = SubResource("VisualShaderNodeCompare_qs8k2")
+nodes/fragment/23/position = Vector2(240, 240)
+nodes/fragment/24/node = SubResource("VisualShaderNodeFloatOp_16yxf")
+nodes/fragment/24/position = Vector2(20, 320)
+nodes/fragment/25/node = SubResource("VisualShaderNodeFloatOp_qm3nj")
+nodes/fragment/25/position = Vector2(460, 220)
+nodes/fragment/27/node = SubResource("VisualShaderNodeFloatOp_6fhkx")
+nodes/fragment/27/position = Vector2(960, 0)
+nodes/fragment/28/node = SubResource("VisualShaderNodeFloatFunc_mear7")
+nodes/fragment/28/position = Vector2(680, 180)
+nodes/fragment/connections = PackedInt32Array(4, 0, 6, 0, 6, 0, 3, 2, 4, 0, 9, 0, 9, 0, 7, 1, 6, 0, 8, 1, 10, 4, 5, 1, 5, 0, 0, 1, 7, 0, 12, 0, 12, 0, 8, 0, 8, 0, 3, 0, 6, 0, 13, 2, 3, 0, 15, 0, 13, 0, 15, 1, 2, 0, 16, 0, 16, 0, 7, 0, 8, 0, 17, 0, 17, 0, 13, 0, 18, 0, 19, 0, 19, 0, 3, 1, 19, 0, 13, 1, 11, 1, 19, 1, 11, 2, 19, 2, 11, 1, 20, 2, 11, 2, 20, 1, 18, 0, 20, 0, 20, 0, 21, 1, 19, 0, 23, 0, 8, 0, 24, 1, 24, 0, 23, 2, 21, 0, 25, 1, 23, 0, 25, 0, 27, 0, 5, 0, 15, 0, 27, 0, 25, 0, 28, 0, 28, 0, 27, 1, 6, 0, 21, 2)

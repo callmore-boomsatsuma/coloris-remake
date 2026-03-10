@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://rma1s2vxxrob"]
+
+[ext_resource type="Script" uid="uid://c5f6fc2ilnp2l" path="res://scripts/board_manager.gd" id="2_oi3di"]
+[ext_resource type="PackedScene" uid="uid://c7hvw6ini5ssu" path="res://scenes/cursor/cursor.tscn" id="4_0b4ue"]
+[ext_resource type="PackedScene" uid="uid://tno20qdr1s6x" path="res://scenes/ui/progress_tracker/progress_tracker.tscn" id="5_1ainy"]
+
+[sub_resource type="Environment" id="Environment_1ainy"]
+background_mode = 3
+glow_enabled = true
+
+[node name="Level" type="Node2D" unique_id=1204994135]
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=1183406190]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="BoardManager" type="Node2D" parent="." unique_id=2036369727 node_paths=PackedStringArray("cursor_node", "offscreen_node_spawn_point")]
+position = Vector2(576, 324)
+script = ExtResource("2_oi3di")
+board_size = Vector2i(10, 9)
+cell_size = Vector2(52, 52)
+cell_gap = Vector2(12, 12)
+cursor_node = NodePath("../Cursor")
+offscreen_node_spawn_point = NodePath("../CellSpawnMarker")
+
+[node name="Cursor" parent="." unique_id=687429603 instance=ExtResource("4_0b4ue")]
+position = Vector2(64, 64)
+scale = Vector2(1.2, 1.2)
+
+[node name="ProgressTracker" parent="." unique_id=1407859272 instance=ExtResource("5_1ainy")]
+
+[node name="CellSpawnMarker" type="Marker2D" parent="." unique_id=1613215455]
+position = Vector2(576, -64)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=502678393]
+environment = SubResource("Environment_1ainy")
+
+[connection signal="add_progress" from="BoardManager" to="ProgressTracker" method="_on_board_manager_add_progress"]
+[connection signal="update_next_color" from="BoardManager" to="ProgressTracker" method="_on_board_manager_update_next_color"]

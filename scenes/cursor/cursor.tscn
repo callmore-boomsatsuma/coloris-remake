@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://c7hvw6ini5ssu"]
+
+[ext_resource type="Script" uid="uid://dgdr2y3bgtovg" path="res://scenes/cursor/cursor.gd" id="1_hu3fh"]
+[ext_resource type="Shader" uid="uid://byjx2rbgbftmk" path="res://scenes/cursor/cursor_outline.tres" id="2_roth4"]
+[ext_resource type="PackedScene" uid="uid://dmv3av6e1huh7" path="res://scenes/cell/visuals/sweeping_bar/sweeping_bar.tscn" id="3_roth4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_roth4"]
+shader = ExtResource("2_roth4")
+shader_parameter/Scale = 1.4
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_hu3fh"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ghxni"]
+shader = ExtResource("2_roth4")
+shader_parameter/Scale = 1.2
+
+[node name="Cursor" type="Node2D" unique_id=687429603]
+script = ExtResource("1_hu3fh")
+color = Color(1, 1, 1, 1)
+metadata/_edit_group_ = true
+
+[node name="Outline" type="Sprite2D" parent="." unique_id=2124708390]
+self_modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_roth4")
+scale = Vector2(1.07, 1.07)
+texture = SubResource("ViewportTexture_hu3fh")
+
+[node name="Center" type="Sprite2D" parent="." unique_id=502504088]
+material = SubResource("ShaderMaterial_ghxni")
+texture = SubResource("ViewportTexture_hu3fh")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=828524202]
+disable_3d = true
+transparent_bg = true
+gui_disable_input = true
+size = Vector2i(54, 54)
+
+[node name="SweepingBar" parent="SubViewport" unique_id=1989961261 instance=ExtResource("3_roth4")]
+position = Vector2(27, 27)

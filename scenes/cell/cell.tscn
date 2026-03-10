@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://by3kpwqf1sxrj"]
+
+[ext_resource type="Script" uid="uid://bh3vw701e05te" path="res://scenes/cell/cell.gd" id="1_ct601"]
+[ext_resource type="Shader" uid="uid://bf6t55hkqd7ir" path="res://scenes/cell/gray_fade.tres" id="2_1f7j7"]
+[ext_resource type="PackedScene" uid="uid://bhpp7f4mi6ysb" path="res://scenes/cell/visuals/baked/sweeping_bar.tscn" id="3_1f7j7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r0oyy"]
+resource_local_to_scene = true
+shader = ExtResource("2_1f7j7")
+shader_parameter/GrayColor = Color(0.4117647, 0.4117647, 0.4117647, 1)
+shader_parameter/GrayProgress = 0.0
+
+[sub_resource type="Animation" id="Animation_4gomg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ct601"]
+resource_name = "spin"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.1415927]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3),
+"transitions": PackedFloat32Array(0.5, 2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4gomg"]
+_data = {
+&"RESET": SubResource("Animation_4gomg"),
+&"spin": SubResource("Animation_ct601")
+}
+
+[sub_resource type="Animation" id="Animation_1f7j7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:material:shader_parameter/GrayProgress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_r0oyy"]
+resource_name = "gray"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:material:shader_parameter/GrayProgress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.75, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4m6nx"]
+_data = {
+&"RESET": SubResource("Animation_1f7j7"),
+&"gray": SubResource("Animation_r0oyy")
+}
+
+[node name="Cell" type="Node2D" unique_id=1925204441 node_paths=PackedStringArray("visual_node")]
+script = ExtResource("1_ct601")
+visual_node = NodePath("Visual/SweepingBar")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1091674713]
+material = SubResource("ShaderMaterial_r0oyy")
+
+[node name="SweepingBar" parent="Visual" unique_id=1818631968 instance=ExtResource("3_1f7j7")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=937169792]
+libraries/ = SubResource("AnimationLibrary_4gomg")
+
+[node name="AnimationTimer" type="Timer" parent="." unique_id=1063261504]
+wait_time = 2.0
+autostart = true
+
+[node name="GrayAnimatior" type="AnimationPlayer" parent="." unique_id=1224145834]
+libraries/ = SubResource("AnimationLibrary_4m6nx")
+autoplay = &"gray"
+speed_scale = 0.0
+
+[connection signal="timeout" from="AnimationTimer" to="." method="_on_animation_timer_timeout"]

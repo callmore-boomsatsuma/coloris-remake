@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ce8u2v0d6ci7g"]
+
+[ext_resource type="Script" uid="uid://dej066qukghxc" path="res://scenes/clear_particle/clear_particle.gd" id="1_fqulq"]
+
+[sub_resource type="Gradient" id="Gradient_8bf4r"]
+
+[node name="ClearParticle" type="Sprite2D" unique_id=312483928]
+script = ExtResource("1_fqulq")
+
+[node name="Trail" type="Line2D" parent="." unique_id=951234045]
+top_level = true
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+gradient = SubResource("Gradient_8bf4r")

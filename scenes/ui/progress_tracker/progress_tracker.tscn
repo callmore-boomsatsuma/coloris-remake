@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://tno20qdr1s6x"]
+
+[ext_resource type="Script" uid="uid://dc3csqjaeiqri" path="res://scenes/ui/progress_tracker/progress_tracker.gd" id="1_gc0u2"]
+[ext_resource type="Script" uid="uid://br8sjm2ejtbyw" path="res://scenes/ui/progress_tracker/progress_tracker_bar.gd" id="3_ktlo2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gc0u2"]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_detail = 1
+
+[node name="ProgressTracker" type="Control" unique_id=1407859272 node_paths=PackedStringArray("progress_tracker_bar_node")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 448.0
+offset_right = 704.0
+offset_bottom = 28.0
+script = ExtResource("1_gc0u2")
+progress_tracker_bar_node = NodePath("PanelContainer/MarginContainer/ProgressTrackerBar")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1686844889]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gc0u2")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1258302140]
+layout_mode = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ProgressTrackerBar" type="Control" parent="PanelContainer/MarginContainer" unique_id=2078403573]
+layout_mode = 2
+script = ExtResource("3_ktlo2")

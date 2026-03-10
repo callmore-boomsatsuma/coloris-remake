@@ -1,0 +1,58 @@
+[gd_resource type="VisualShader" format=3 uid="uid://bf6t55hkqd7ir"]
+
+[sub_resource type="Gradient" id="Gradient_chfib"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ajs4b"]
+gradient = SubResource("Gradient_chfib")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mk1ms"]
+texture = SubResource("GradientTexture2D_ajs4b")
+
+[sub_resource type="VisualShaderNodeCompare" id="VisualShaderNodeCompare_chfib"]
+function = 5
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_chfib"]
+output_port_for_preview = 0
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, 0.5]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_ajs4b"]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_wc2w5"]
+parameter_name = "GrayColor"
+default_value_enabled = true
+default_value = Color(0.4117647, 0.4117647, 0.4117647, 1)
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_734dn"]
+parameter_name = "GrayProgress"
+hint = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_d8ikw"]
+expanded_output_ports = [0]
+input_name = "uv"
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(720, 940)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_wc2w5")
+nodes/fragment/2/position = Vector2(-180, 740)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_734dn")
+nodes/fragment/3/position = Vector2(-180, 1060)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_d8ikw")
+nodes/fragment/5/position = Vector2(-460, 1420)
+nodes/fragment/10/node = SubResource("VisualShaderNodeTexture_mk1ms")
+nodes/fragment/10/position = Vector2(-120, 1300)
+nodes/fragment/11/node = SubResource("VisualShaderNodeCompare_chfib")
+nodes/fragment/11/position = Vector2(160, 1200)
+nodes/fragment/12/node = SubResource("VisualShaderNodeMix_chfib")
+nodes/fragment/12/position = Vector2(440, 920)
+nodes/fragment/13/node = SubResource("VisualShaderNodeInput_ajs4b")
+nodes/fragment/13/position = Vector2(-200, 960)
+nodes/fragment/connections = PackedInt32Array(5, 0, 10, 0, 2, 0, 12, 0, 11, 0, 12, 2, 13, 0, 12, 1, 12, 0, 0, 0, 3, 0, 11, 0, 10, 0, 11, 1)

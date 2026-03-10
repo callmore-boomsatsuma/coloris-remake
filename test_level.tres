@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3 uid="uid://b7bpba3xrujo6"]
+
+[ext_resource type="Resource" uid="uid://b50yp131ly8tw" path="res://test_level_gradient.tres" id="1_rdpra"]
+[ext_resource type="Script" uid="uid://gahviu7p01gd" path="res://scripts/level_definition.gd" id="1_t1s0g"]
+
+[resource]
+script = ExtResource("1_t1s0g")
+gradient = ExtResource("1_rdpra")
+garbage_time_seconds = 30.0
+metadata/_custom_type_script = "uid://gahviu7p01gd"

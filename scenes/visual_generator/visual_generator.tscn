@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b026h45vclp3u"]
+
+[ext_resource type="PackedScene" uid="uid://dmv3av6e1huh7" path="res://scenes/cell/visuals/sweeping_bar/sweeping_bar.tscn" id="1_3r3rb"]
+[ext_resource type="Script" uid="uid://sy8odi3n8mo8" path="res://scenes/visual_generator/visual_generator.gd" id="1_qhx3h"]
+[ext_resource type="PackedScene" uid="uid://clhtmi7bblr4x" path="res://scenes/cell/visuals/rotated_doors/rotated_doors.tscn" id="3_gasoo"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qhx3h"]
+viewport_path = NodePath("Stage")
+
+[node name="VisualGenerator" type="Node" unique_id=106417542 node_paths=PackedStringArray("stage_node")]
+script = ExtResource("1_qhx3h")
+visual_scenes = Array[PackedScene]([ExtResource("1_3r3rb"), ExtResource("3_gasoo")])
+stage_node = NodePath("Stage")
+
+[node name="Stage" type="SubViewport" parent="." unique_id=205306365]
+transparent_bg = true
+size = Vector2i(64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1057325842]
+position = Vector2(570, 305)
+texture = SubResource("ViewportTexture_qhx3h")

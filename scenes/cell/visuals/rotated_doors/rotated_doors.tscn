@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://clhtmi7bblr4x"]
+
+[ext_resource type="Script" uid="uid://csx8ko8fhhxof" path="res://scenes/cell/visuals/basic_cell_visuals.gd" id="1_wdjye"]
+[ext_resource type="Shader" uid="uid://c3lhjv87y6va0" path="res://scenes/cell/visuals/rotated_doors/rotated_doors.tres" id="2_btf3j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i721e"]
+resource_local_to_scene = true
+shader = ExtResource("2_btf3j")
+shader_parameter/BarPosition = 0.0
+shader_parameter/BarHeight = 0.1
+shader_parameter/Rotated = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tckt6"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Animation" id="Animation_86cyr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:material:shader_parameter/BarPosition")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:material:shader_parameter/Rotated")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_i721e"]
+resource_name = "sweep"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel:material:shader_parameter/BarPosition")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.9999, 2, 4),
+"transitions": PackedFloat32Array(1, 0, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel:material:shader_parameter/Rotated")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vmp0p"]
+_data = {
+&"RESET": SubResource("Animation_86cyr"),
+&"sweep": SubResource("Animation_i721e")
+}
+
+[node name="RotatedDoors" type="Node2D" unique_id=1989961261 node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_wdjye")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Panel" type="Panel" parent="." unique_id=1129414281]
+material = SubResource("ShaderMaterial_i721e")
+offset_left = -26.0
+offset_top = -26.0
+offset_right = 26.0
+offset_bottom = 26.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tckt6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1824055501]
+libraries/ = SubResource("AnimationLibrary_vmp0p")
