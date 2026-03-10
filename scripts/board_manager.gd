@@ -62,6 +62,8 @@ func get_random_color_index() -> int:
 
 
 func _ready() -> void:
+	print(1.0 / maxi(2, 1))
+	print(1.0 / maxi(1, 1))
 	if Engine.is_editor_hint():
 		return
 
@@ -131,6 +133,7 @@ func _process(delta: float) -> void:
 				await get_tree().create_timer(0.3).timeout
 				chain += 1
 				var colors_cleared: Dictionary[int, int] = {}
+				var marked_garbage: Dictionary[Vector2i, bool] = {}
 				for cleared_cell_loc in clears:
 					var cleared_cell := cell_at(cleared_cell_loc)
 					if cleared_cell.color_index not in colors_cleared:
@@ -138,8 +141,13 @@ func _process(delta: float) -> void:
 					colors_cleared[cleared_cell.color_index] += 1
 					cleared_cell.clear()
 					for offset in SURROUNDING_CELL_OFFSETS:
-						if is_loc_in_bounds(cleared_cell_loc + offset):
-							print(cleared_cell_loc + offset)
+						if is_cell_empty(cleared_cell_loc + offset):
+							continue
+						if not is_loc_in_bounds(cleared_cell_loc + offset):
+							continue
+						if is_cell_garbage(cleared_cell_loc + offset):
+							marked_garbage[cleared_cell_loc + offset] = true
+						else:
 							reset_garbage_progress(cleared_cell_loc + offset)
 				score += len(clears) * chain
 				var colors_cleared_multipled: Dictionary[int, int] = {}
@@ -155,6 +163,11 @@ func _process(delta: float) -> void:
 						await get_tree().process_frame
 				for clear in clears:
 					board[board_loc_to_index(clear)] = null
+				for garbage_loc in marked_garbage:
+					var garbage_cell := cell_at(garbage_loc)
+					await garbage_cell.damage_garbage()
+					if garbage_cell.garbage_health <= 0:
+						board[board_loc_to_index(garbage_loc)] = null
 				# refill!
 				await apply_gravity_and_refill()
 
@@ -346,7 +359,7 @@ func check_for_clears(offset: Vector2i) -> Array[Vector2i]:
 			if initial_cell.is_garbage:
 				continue
 			var connected := 1
-			while is_loc_in_bounds(loc + (offset * connected)) and not is_cell_empty(loc + (offset * connected)) and cell_at(loc + (offset * connected)).color_index == initial_cell.color_index:
+			while is_loc_in_bounds(loc + (offset * connected)) and not is_cell_empty(loc + (offset * connected)) and not is_cell_garbage(loc + (offset * connected)) and cell_at(loc + (offset * connected)).color_index == initial_cell.color_index:
 				connected += 1
 			if connected < 3:
 				continue

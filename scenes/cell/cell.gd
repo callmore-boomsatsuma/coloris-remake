@@ -24,14 +24,17 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if OS.has_feature("debug"):
 		queue_redraw()
-	$GrayAnimatior.seek(garbage_progress / LevelManager.level.garbage_time_seconds, true)
+	if is_garbage:
+		$GrayAnimatior.seek(0, true)
+	else:
+		$GrayAnimatior.seek(garbage_progress / LevelManager.level.garbage_time_seconds, true)
 
 
 func _draw() -> void:
 	# Debug drawing!
 	if not OS.has_feature("debug"):
 		return
-	draw_string(ThemeDB.fallback_font, Vector2.RIGHT * 28, "%.1f" % garbage_progress)
+	# draw_string(ThemeDB.fallback_font, Vector2.RIGHT * 28, "%.1f" % garbage_progress)
 
 
 func set_color_index(value: int) -> void:
@@ -40,13 +43,20 @@ func set_color_index(value: int) -> void:
 
 
 func update_color() -> void:
+	$Visual.modulate = get_cell_target_color()
+
+func get_cell_target_color() -> Color:
 	var new_color: Color
 	if is_garbage:
-		new_color = Color.GRAY.darkened(1.0 / maxi(garbage_health, 1))
+		if garbage_health <= 0:
+			new_color = Color.TRANSPARENT
+		else:
+			new_color = Color.GRAY.darkened((garbage_health) * 0.2)
+
 	else:
 		# TODO: Reevaluate if the cell should care about the level
 		new_color = level_gradient.get_color(color_index)
-	$Visual.modulate = new_color
+	return new_color
 
 
 func can_modify_color(offset: int) -> bool:
@@ -65,7 +75,8 @@ func modify_color(offset: int) -> void:
 	visual_node.reset_visual()
 	$AnimationTimer.stop()
 	var tween := create_tween()
-	tween.tween_property($Visual, "modulate", level_gradient.gradient.sample(color_index / float(level_gradient.colors - 1)), 0.3)
+	# tween.tween_property($Visual, "modulate", level_gradient.gradient.sample(color_index / float(level_gradient.colors - 1)), 0.3)
+	tween.tween_property($Visual, "modulate", get_cell_target_color(), 0.3)
 	
 	if offset > 0:
 		$AnimationPlayer.play(&"spin")
@@ -128,3 +139,13 @@ func become_garbage() -> void:
 	is_garbage = true
 	garbage_health = 2
 	update_color()
+
+
+func damage_garbage() -> void:
+	garbage_health -= 1
+	$AnimationPlayer.play("garbage_damage")
+	var tween := create_tween()
+	tween.tween_property($Visual, "modulate", get_cell_target_color(), 0.2)
+	await tween.finished
+	if garbage_health <= 0:
+		queue_free()
