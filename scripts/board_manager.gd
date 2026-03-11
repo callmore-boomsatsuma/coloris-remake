@@ -62,8 +62,6 @@ func get_random_color_index() -> int:
 
 
 func _ready() -> void:
-	print(1.0 / maxi(2, 1))
-	print(1.0 / maxi(1, 1))
 	if Engine.is_editor_hint():
 		return
 

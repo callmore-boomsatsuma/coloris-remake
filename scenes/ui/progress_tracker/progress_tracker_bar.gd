@@ -17,7 +17,6 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
 	var offset := 0
-	print(progress)
 	for color_index in range(LevelManager.level.gradient.colors):
 		if color_index not in progress:
 			continue

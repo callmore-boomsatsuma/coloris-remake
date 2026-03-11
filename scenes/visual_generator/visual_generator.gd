@@ -34,7 +34,6 @@ func generate_frames(visual_scene: PackedScene) -> void:
 	visual.set_speed(0)
 	while (frame * framerate) < l:
 		visual.set_time(minf(frame * framerate, l))
-		print("%f/%f (%d)" % [frame * framerate, l, frame])
 		await get_tree().process_frame
 		tex.get_image().save_png("res://scenes/visual_generator/output/%s/%04d.png" % [visual_scene_name, frame])
 		frame += 1
