@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bh3vw701e05te" path="res://scenes/cell/cell.gd" id="1_ct601"]
 [ext_resource type="Shader" uid="uid://bf6t55hkqd7ir" path="res://scenes/cell/gray_fade.tres" id="2_1f7j7"]
 [ext_resource type="PackedScene" uid="uid://bhpp7f4mi6ysb" path="res://scenes/cell/visuals/baked/sweeping_bar.tscn" id="3_1f7j7"]
+[ext_resource type="AudioStream" uid="uid://cshwu8bbwr1j8" path="res://scenes/cell/synth.wav" id="4_r0oyy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r0oyy"]
 resource_local_to_scene = true
@@ -158,5 +159,9 @@ autostart = true
 libraries/ = SubResource("AnimationLibrary_4m6nx")
 autoplay = &"gray"
 speed_scale = 0.0
+
+[node name="CellDrop" type="AudioStreamPlayer" parent="." unique_id=1191077083]
+stream = ExtResource("4_r0oyy")
+bus = &"New Bus"
 
 [connection signal="timeout" from="AnimationTimer" to="." method="_on_animation_timer_timeout"]

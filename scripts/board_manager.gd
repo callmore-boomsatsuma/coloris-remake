@@ -21,7 +21,13 @@ const Cursor := preload("res://scenes/cursor/cursor.gd")
 const Cell := preload("res://scenes/cell/cell.gd")
 const cell_scene := preload("res://scenes/cell/cell.tscn")
 
+@export var sound_height_pitches: Array[float]
+
 @export var offscreen_node_spawn_point: Node2D
+
+@export var drop_sounds: Array[AudioStreamPlayer] = []
+@export var drop_sounds_ramp: Curve
+@export_tool_button("test drop sounds") var test_drop_sounds = fn_test_drop_sounds
 
 var board: Array[Cell] = []
 
@@ -77,6 +83,18 @@ func _ready() -> void:
 	update_cursor()
 	update_progress_tracker()
 
+	for sound_id in range(drop_sounds.size()):
+		# drop_sounds[sound_id].pitch_scale = drop_sounds_ramp.sample(sound_id / (drop_sounds.size() - 1.0))
+		drop_sounds[sound_id].pitch_scale = sound_height_pitches[sound_id]
+
+func fn_test_drop_sounds() -> void:
+	for sound_id in range(drop_sounds.size()):
+		# drop_sounds[sound_id].pitch_scale = drop_sounds_ramp.sample(sound_id / (drop_sounds.size() - 1.0))
+		drop_sounds[sound_id].pitch_scale = sound_height_pitches[sound_id]
+		drop_sounds[sound_id].bus = "Drop Sound %d" % sound_id
+	for sound_id in range(drop_sounds.size()):
+		drop_sounds[sound_id].play()
+		await get_tree().create_timer(0.2).timeout
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -239,8 +257,7 @@ func cell_apply_gravity(loc: Vector2i) -> void:
 	var target_loc := loc + Vector2i.DOWN * fall_count
 	board[board_loc_to_index(target_loc)] = cell
 	board[board_loc_to_index(loc)] = null
-	cell.relocate_to(get_cell_offset(target_loc) + global_position)
-
+	fall_cell_y(cell, target_loc)
 
 ## Applies gravity to a column, and refills it if it has space at the top.
 ## Returns true if something happened.
@@ -258,14 +275,27 @@ func column_apply_gravity_and_refill(column: int) -> bool:
 		while is_cell_empty(Vector2i(column, row + 1)):
 			row += 1
 		var cell := create_cell(Vector2i(column, row), get_random_color_index())
-		var old_global_pos := cell.global_position
+		# var old_global_pos := cell.global_position
 		cell.global_position.y = offscreen_node_spawn_point.global_position.y
-		cell.relocate_to(old_global_pos)
+		fall_cell_y(cell, Vector2i(column, row))
+		# cell.relocate_to(old_global_pos)
 		board[board_loc_to_index(Vector2i(column, row))] = cell
 		add_sibling(cell)
 		return true
 		
 	return false
+
+
+func fall_cell_y(cell: Cell, relocation_target: Vector2i) -> void:
+	await cell.relocate_to(get_cell_offset(relocation_target) + global_position)
+	# cell.play_drop_sound(sound_height_pitches[relocation_target.y])
+	play_drop_sound((board_size.y - 1) - relocation_target.y)
+
+
+func play_drop_sound(height: int) -> void:
+	if drop_sounds[height].playing:
+		return
+	drop_sounds[height].play()
 
 
 ## Continuously applies gravity to the entire board until it settles.

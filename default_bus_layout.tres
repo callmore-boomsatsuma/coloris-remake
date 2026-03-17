@@ -1,0 +1,110 @@
+[gd_resource type="AudioBusLayout" format=3 uid="uid://b0blo58f51uhp"]
+
+[sub_resource type="AudioEffectHardLimiter" id="AudioEffectHardLimiter_j3pel"]
+resource_name = "HardLimiter"
+
+[sub_resource type="AudioEffectCompressor" id="AudioEffectCompressor_j3pel"]
+resource_name = "Compressor"
+
+[sub_resource type="AudioEffectEQ" id="AudioEffectEQ_j3pel"]
+resource_name = "EQ"
+band_db/1000_hz = -3.0
+band_db/3200_hz = -60.0
+band_db/10000_hz = -60.0
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_dqt2m"]
+resource_name = "PitchShift"
+pitch_scale = 0.75
+oversampling = 32
+fft_size = 0
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_j3pel"]
+resource_name = "PitchShift"
+oversampling = 32
+fft_size = 1
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_g28q7"]
+resource_name = "PitchShift"
+pitch_scale = 1.25
+oversampling = 32
+fft_size = 1
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_n8wo2"]
+resource_name = "PitchShift"
+pitch_scale = 1.65
+oversampling = 32
+fft_size = 1
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_5t1r3"]
+resource_name = "PitchShift"
+pitch_scale = 2.25
+oversampling = 32
+fft_size = 1
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_cenje"]
+resource_name = "PitchShift"
+pitch_scale = 2.5
+oversampling = 32
+fft_size = 1
+
+[resource]
+bus/0/effect/0/effect = SubResource("AudioEffectHardLimiter_j3pel")
+bus/0/effect/0/enabled = true
+bus/1/name = &"New Bus"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = -4.7681155
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectCompressor_j3pel")
+bus/1/effect/0/enabled = false
+bus/2/name = &"Drop Sounds"
+bus/2/solo = false
+bus/2/mute = false
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = &"Master"
+bus/2/effect/0/effect = SubResource("AudioEffectEQ_j3pel")
+bus/2/effect/0/enabled = true
+bus/2/effect/1/effect = SubResource("AudioEffectPitchShift_dqt2m")
+bus/2/effect/1/enabled = false
+bus/3/name = &"Drop Sound 0"
+bus/3/solo = false
+bus/3/mute = false
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = &"Drop Sounds"
+bus/3/effect/0/effect = SubResource("AudioEffectPitchShift_j3pel")
+bus/3/effect/0/enabled = true
+bus/4/name = &"Drop Sound 1"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"Drop Sounds"
+bus/4/effect/0/effect = SubResource("AudioEffectPitchShift_g28q7")
+bus/4/effect/0/enabled = true
+bus/5/name = &"Drop Sound 2"
+bus/5/solo = false
+bus/5/mute = false
+bus/5/bypass_fx = false
+bus/5/volume_db = 0.0
+bus/5/send = &"Drop Sounds"
+bus/5/effect/0/effect = SubResource("AudioEffectPitchShift_n8wo2")
+bus/5/effect/0/enabled = true
+bus/6/name = &"Drop Sound 3"
+bus/6/solo = false
+bus/6/mute = false
+bus/6/bypass_fx = false
+bus/6/volume_db = 0.0
+bus/6/send = &"Drop Sounds"
+bus/6/effect/0/effect = SubResource("AudioEffectPitchShift_5t1r3")
+bus/6/effect/0/enabled = true
+bus/7/name = &"Drop Sound 4"
+bus/7/solo = false
+bus/7/mute = false
+bus/7/bypass_fx = false
+bus/7/volume_db = 0.0
+bus/7/send = &"Drop Sounds"
+bus/7/effect/0/effect = SubResource("AudioEffectPitchShift_cenje")
+bus/7/effect/0/enabled = true

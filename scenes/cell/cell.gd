@@ -131,6 +131,11 @@ func relocate_to(new_loc: Vector2) -> void:
 	$AnimationTimer.start()
 
 
+func play_drop_sound(pitch: float) -> void:
+	$CellDrop.pitch_scale = pitch
+	$CellDrop.play(0.0)
+
+
 ## Converts this cell to garbage, turning it gray.
 func become_garbage() -> void:
 	visual_node.reset_visual()
