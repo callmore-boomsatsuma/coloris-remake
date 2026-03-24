@@ -21,12 +21,9 @@ const Cursor := preload("res://scenes/cursor/cursor.gd")
 const Cell := preload("res://scenes/cell/cell.gd")
 const cell_scene := preload("res://scenes/cell/cell.tscn")
 
-@export var sound_height_pitches: Array[float]
-
 @export var offscreen_node_spawn_point: Node2D
 
 @export var drop_sounds: Array[AudioStreamPlayer] = []
-@export var drop_sounds_ramp: Curve
 @export_tool_button("test drop sounds") var test_drop_sounds = fn_test_drop_sounds
 
 var board: Array[Cell] = []
@@ -83,15 +80,7 @@ func _ready() -> void:
 	update_cursor()
 	update_progress_tracker()
 
-	for sound_id in range(drop_sounds.size()):
-		# drop_sounds[sound_id].pitch_scale = drop_sounds_ramp.sample(sound_id / (drop_sounds.size() - 1.0))
-		drop_sounds[sound_id].pitch_scale = sound_height_pitches[sound_id]
-
 func fn_test_drop_sounds() -> void:
-	for sound_id in range(drop_sounds.size()):
-		# drop_sounds[sound_id].pitch_scale = drop_sounds_ramp.sample(sound_id / (drop_sounds.size() - 1.0))
-		drop_sounds[sound_id].pitch_scale = sound_height_pitches[sound_id]
-		drop_sounds[sound_id].bus = "Drop Sound %d" % sound_id
 	for sound_id in range(drop_sounds.size()):
 		drop_sounds[sound_id].play()
 		await get_tree().create_timer(0.2).timeout
@@ -293,8 +282,8 @@ func fall_cell_y(cell: Cell, relocation_target: Vector2i) -> void:
 
 
 func play_drop_sound(height: int) -> void:
-	if drop_sounds[height].playing:
-		return
+	# if drop_sounds[height].playing:
+	# 	return
 	drop_sounds[height].play()
 
 

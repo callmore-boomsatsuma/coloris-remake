@@ -1,14 +1,17 @@
 [gd_scene format=3 uid="uid://rma1s2vxxrob"]
 
-[ext_resource type="AudioStream" uid="uid://cshwu8bbwr1j8" path="res://scenes/cell/synth.wav" id="2_0b4ue"]
+[ext_resource type="AudioStream" uid="uid://bhahmhtralomy" path="res://resources/sounds/origanal/snd_fall_1.wav" id="2_aicyk"]
 [ext_resource type="Script" uid="uid://c5f6fc2ilnp2l" path="res://scripts/board_manager.gd" id="2_oi3di"]
+[ext_resource type="AudioStream" uid="uid://26i5xmp5viks" path="res://resources/sounds/origanal/snd_fall_2.wav" id="3_8b0r0"]
 [ext_resource type="PackedScene" uid="uid://c7hvw6ini5ssu" path="res://scenes/cursor/cursor.tscn" id="4_0b4ue"]
+[ext_resource type="AudioStream" uid="uid://cguvc1822wkpo" path="res://resources/sounds/origanal/snd_fall_3.wav" id="4_h6smj"]
 [ext_resource type="PackedScene" uid="uid://tno20qdr1s6x" path="res://scenes/ui/progress_tracker/progress_tracker.tscn" id="5_1ainy"]
-
-[sub_resource type="Curve" id="Curve_0b4ue"]
-_limits = [1.0, 4.5, 0.0, 1.0]
-_data = [Vector2(0, 4.5), 0.0, -3.4561017, 0, 0, Vector2(1, 1), -3.3148582, 2.8, 0, 0]
-point_count = 2
+[ext_resource type="AudioStream" uid="uid://70jbjmacmywk" path="res://resources/sounds/origanal/snd_fall_4.wav" id="5_v5j5c"]
+[ext_resource type="AudioStream" uid="uid://c4lbbocl8rnn0" path="res://resources/sounds/origanal/snd_fall_5.wav" id="6_5pxul"]
+[ext_resource type="AudioStream" uid="uid://ddvfxoq7rhhsi" path="res://resources/sounds/origanal/snd_fall_6.wav" id="7_fedht"]
+[ext_resource type="AudioStream" uid="uid://dry1vo3srplv0" path="res://resources/sounds/origanal/snd_fall_7.wav" id="8_4c15r"]
+[ext_resource type="AudioStream" uid="uid://btu4a2uaqlwop" path="res://resources/sounds/origanal/snd_fall_8.wav" id="9_ait7k"]
+[ext_resource type="AudioStream" uid="uid://cw60scow4waih" path="res://resources/sounds/origanal/snd_fall_9.wav" id="10_42xju"]
 
 [sub_resource type="Environment" id="Environment_1ainy"]
 background_mode = 3
@@ -25,49 +28,48 @@ metadata/_edit_lock_ = true
 [node name="BoardManager" type="Node2D" parent="." unique_id=2036369727 node_paths=PackedStringArray("cursor_node", "offscreen_node_spawn_point", "drop_sounds")]
 position = Vector2(576, 324)
 script = ExtResource("2_oi3di")
+board_size = Vector2i(12, 9)
 cell_size = Vector2(52, 52)
 cell_gap = Vector2(12, 12)
 cursor_node = NodePath("../Cursor")
-sound_height_pitches = Array[float]([1.0, 1.0, 1.0, 1.0, 1.0, 3.0, 4.0, 5.0, 6.0])
 offscreen_node_spawn_point = NodePath("../CellSpawnMarker")
 drop_sounds = [NodePath("DropSound0"), NodePath("DropSound1"), NodePath("DropSound2"), NodePath("DropSound3"), NodePath("DropSound4"), NodePath("DropSound5"), NodePath("DropSound6"), NodePath("DropSound7"), NodePath("DropSound8")]
-drop_sounds_ramp = SubResource("Curve_0b4ue")
 
 [node name="DropSound0" type="AudioStreamPlayer" parent="BoardManager" unique_id=101530710]
-stream = ExtResource("2_0b4ue")
-bus = &"Drop Sound 0"
+stream = ExtResource("2_aicyk")
+bus = &"Drop Sounds"
 
 [node name="DropSound1" type="AudioStreamPlayer" parent="BoardManager" unique_id=1909591122]
-stream = ExtResource("2_0b4ue")
-bus = &"Drop Sound 1"
+stream = ExtResource("3_8b0r0")
+bus = &"Drop Sounds"
 
 [node name="DropSound2" type="AudioStreamPlayer" parent="BoardManager" unique_id=1504468246]
-stream = ExtResource("2_0b4ue")
-bus = &"Drop Sound 2"
+stream = ExtResource("4_h6smj")
+bus = &"Drop Sounds"
 
 [node name="DropSound3" type="AudioStreamPlayer" parent="BoardManager" unique_id=264776292]
-stream = ExtResource("2_0b4ue")
-bus = &"Drop Sound 3"
+stream = ExtResource("5_v5j5c")
+bus = &"Drop Sounds"
 
 [node name="DropSound4" type="AudioStreamPlayer" parent="BoardManager" unique_id=1880247362]
-stream = ExtResource("2_0b4ue")
-bus = &"Drop Sound 4"
+stream = ExtResource("6_5pxul")
+bus = &"Drop Sounds"
 
 [node name="DropSound5" type="AudioStreamPlayer" parent="BoardManager" unique_id=1171038250]
-stream = ExtResource("2_0b4ue")
-pitch_scale = 3.0
+stream = ExtResource("7_fedht")
+bus = &"Drop Sounds"
 
 [node name="DropSound6" type="AudioStreamPlayer" parent="BoardManager" unique_id=1623524739]
-stream = ExtResource("2_0b4ue")
-pitch_scale = 4.0
+stream = ExtResource("8_4c15r")
+bus = &"Drop Sounds"
 
 [node name="DropSound7" type="AudioStreamPlayer" parent="BoardManager" unique_id=935341591]
-stream = ExtResource("2_0b4ue")
-pitch_scale = 5.0
+stream = ExtResource("9_ait7k")
+bus = &"Drop Sounds"
 
 [node name="DropSound8" type="AudioStreamPlayer" parent="BoardManager" unique_id=1386640024]
-stream = ExtResource("2_0b4ue")
-pitch_scale = 6.0
+stream = ExtResource("10_42xju")
+bus = &"Drop Sounds"
 
 [node name="Cursor" parent="." unique_id=687429603 instance=ExtResource("4_0b4ue")]
 position = Vector2(64, 64)
