@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://hvrs88ok3jd4"]
+
+[ext_resource type="FontFile" uid="uid://cdmts3suyhjyq" path="res://resources/fonts/kiloton/KILOTON1.TTF" id="1_q2l2x"]
+
+[resource]
+default_font = ExtResource("1_q2l2x")

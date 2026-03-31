@@ -21,10 +21,29 @@ const Cursor := preload("res://scenes/cursor/cursor.gd")
 const Cell := preload("res://scenes/cell/cell.gd")
 const cell_scene := preload("res://scenes/cell/cell.tscn")
 
+const ScoreCounter := preload("res://scripts/score_counter.gd")
+
 @export var offscreen_node_spawn_point: Node2D
 
+@export var scoretracker_node: ScoreCounter
+
+@export_category("Sounds")
 @export var drop_sounds: Array[AudioStreamPlayer] = []
 @export_tool_button("test drop sounds") var test_drop_sounds = fn_test_drop_sounds
+@export var change_cell_sound: AudioStreamPlayer
+@export var change_cell_sound_garbage: AudioStreamPlayer
+@export var invalid_move_sound: AudioStreamPlayer
+@export var clear_sound: AudioStreamPlayer
+@export var clear_sound_garbage: AudioStreamPlayer
+@export var garbage_convert_sound: AudioStreamPlayer
+
+@export var garbage_clear_damaged: AudioStreamPlayer
+@export var garbage_clear_removed: AudioStreamPlayer
+
+@export var cell_hover_sounds: Array[AudioStream]
+@export var cell_hover_garbage_sound: AudioStream
+@export var cell_hover_empty_sound: AudioStream
+@export var cell_hover_sound_player: AudioStreamPlayer
 
 var board: Array[Cell] = []
 
@@ -36,7 +55,7 @@ var color_queue: Array[int] = []
 
 var score := 0
 
-signal update_next_color(new_color: int)
+signal update_next_color(new_color: Color)
 signal add_progress(colors: Dictionary[int, int])
 
 const SURROUNDING_CELL_OFFSETS := [
@@ -75,7 +94,7 @@ func _ready() -> void:
 			board.push_back(cell)
 	
 	for i in range(2):
-		color_queue.push_back(pick_random_cursor_color())
+		color_queue.push_back(pick_random_primary_color())
 	
 	update_cursor()
 	update_progress_tracker()
@@ -103,6 +122,7 @@ func _process(delta: float) -> void:
 			cell.garbage_progress += delta
 			if cell.garbage_progress >= LevelManager.level.garbage_time_seconds:
 				cell.become_garbage()
+				garbage_convert_sound.play()
 				continue
 			cell.visual_node.set_speed(1.0 + (cell.garbage_progress / LevelManager.level.garbage_time_seconds) * 3)
 
@@ -117,6 +137,16 @@ func _process(delta: float) -> void:
 		# TODO: Play appropiate sound
 		cursor_position = Vector2i(posmod(cursor_position.x + input_vec.x, board_size.x), posmod(cursor_position.y + input_vec.y, board_size.y))
 		update_cursor()
+		var target_sound: AudioStream
+		if is_cell_empty(cursor_position):
+			target_sound = cell_hover_empty_sound
+		elif is_cell_garbage(cursor_position):
+			target_sound = cell_hover_garbage_sound
+		else:
+			var cell := cell_at(cursor_position)
+			target_sound = cell_hover_sounds[cell.color_index]
+		cell_hover_sound_player.stream = target_sound
+		cell_hover_sound_player.play()
 		reset_selected_cell()
 	
 	if Input.is_action_just_pressed(&"apply_active_color"):
@@ -127,8 +157,12 @@ func _process(delta: float) -> void:
 		input_locked = true
 		## TODO: Handle this significantly better...
 		var target_color_direction := -1 if color_queue[0] == 0 else 1
-		if cell.can_modify_color(target_color_direction):
-			await cell.modify_color(target_color_direction)
+		if cell.can_modify_color(color_queue[0]):
+			if is_any_garbage():
+				change_cell_sound_garbage.play()
+			else:
+				change_cell_sound.play()
+			await cell.modify_color(color_queue[0])
 
 			var chain := 0
 			while true:
@@ -155,10 +189,15 @@ func _process(delta: float) -> void:
 						else:
 							reset_garbage_progress(cleared_cell_loc + offset)
 				score += len(clears) * chain
+				update_score_tracker()
 				var colors_cleared_multipled: Dictionary[int, int] = {}
 				for color in colors_cleared:
 					colors_cleared_multipled[color] = colors_cleared[color] * chain
 				add_progress.emit(colors_cleared_multipled)
+				if is_any_garbage():
+					clear_sound_garbage.play()
+				else:
+					clear_sound.play()
 				await get_tree().create_timer(1).timeout
 				# ensure that the cleared cells are gone
 				while clears.any(
@@ -170,6 +209,10 @@ func _process(delta: float) -> void:
 					board[board_loc_to_index(clear)] = null
 				for garbage_loc in marked_garbage:
 					var garbage_cell := cell_at(garbage_loc)
+					if garbage_cell.garbage_health > 1:
+						garbage_clear_damaged.play()
+					else:
+						garbage_clear_removed.play()
 					await garbage_cell.damage_garbage()
 					if garbage_cell.garbage_health <= 0:
 						board[board_loc_to_index(garbage_loc)] = null
@@ -180,6 +223,7 @@ func _process(delta: float) -> void:
 			update_cursor()
 			update_progress_tracker()
 		else:
+			invalid_move_sound.play()
 			await cell.vibrate()
 		input_locked = false
 
@@ -318,27 +362,23 @@ func get_cell_offset(loc: Vector2) -> Vector2:
 ## Updates the position of the cursor.
 func update_cursor() -> void:
 	cursor_node.global_position = global_position + get_cell_offset(cursor_position)
-	cursor_node.color = LevelManager.level.gradient.get_color(color_queue[0])
+	cursor_node.color = LevelManager.level.gradient.get_primary_color(color_queue[0])
 
 func update_progress_tracker() -> void:
-	update_next_color.emit(color_queue[1])
+	update_next_color.emit(LevelManager.level.gradient.get_primary_color(color_queue[1]))
 
 
 ## Returns a valid cursor color from the current level gradient.
-## Will return either 0 or the amount of colors - 1 for non looping levels,
-## or an even distrubution of colors between 0 and the amount of colors - 1 for looping levels.
-func pick_random_cursor_color() -> int:
+## Will return either 0 or 1 for non looping levels,
+## or an even distrubution of colors between 0 and the amount of primary colors - 1 for looping levels.
+func pick_random_primary_color() -> int:
 	# TODO: Implement looping level functionality
-	var r := randi_range(0, 1)
-	if r == 0:
-		return 0
-	else:
-		return LevelManager.level.gradient.colors - 1
+	return randi_range(0, LevelManager.level.gradient.primary_colors - 1)
 
 
 func advance_color_queue() -> void:
 	color_queue.pop_front()
-	color_queue.push_back(pick_random_cursor_color())
+	color_queue.push_back(pick_random_primary_color())
 
 
 func reset_selected_cell() -> void:
@@ -355,9 +395,9 @@ func get_selected_cell() -> Cell:
 func find_clears() -> Array[Vector2i]:
 	var clears: Dictionary[Vector2i, bool] = {}
 	var clear_arrays := check_for_clears(Vector2i.DOWN) + check_for_clears(Vector2i.RIGHT)
-	for clear in clear_arrays:
-		clears[clear] = true
-	return clears.keys()
+	# for clear in clear_arrays:
+	# 	clears[clear] = true
+	return clear_arrays
 
 
 func check_for_clears(offset: Vector2i) -> Array[Vector2i]:
@@ -383,3 +423,15 @@ func check_for_clears(offset: Vector2i) -> Array[Vector2i]:
 			for i in range(connected):
 				checked.push_back(loc + (offset * i))
 	return checked
+
+## Checks the entire board if any cell is garbage.
+func is_any_garbage() -> bool:
+	for cell in board:
+		if not is_instance_valid(cell):
+			continue
+		if cell.is_garbage:
+			return true
+	return false
+
+func update_score_tracker() -> void:
+	scoretracker_node.update_score(score * 10)

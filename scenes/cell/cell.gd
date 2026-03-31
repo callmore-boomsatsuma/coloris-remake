@@ -58,18 +58,37 @@ func get_cell_target_color() -> Color:
 	return new_color
 
 
-func can_modify_color(offset: int) -> bool:
-	# TODO: Account for looping levels.
-	var result := color_index + offset
-	return result >= 0 and result < level_gradient.colors
+func can_modify_color(target_primary_color: int) -> bool:
+	print(target_primary_color)
+	var primary_color_id := level_gradient.primary_color_to_color(target_primary_color)
+	if color_index == primary_color_id:
+		return false
+	# if level_gradient.primary_colors == 2:
+	# 	## TODO: Write code to handle two colors
+	# 	pass
+	# Take our color and compare if it is in range to be modified towards the target color
+	var a := posmod(primary_color_id - color_index, level_gradient.colors)
+	var b := posmod(color_index - primary_color_id, level_gradient.colors)
+	print(a, ", ", b)
+	if mini(a, b) <= level_gradient.get_colors_per_primary_color():
+		return true
+	return false
 
 
 ## Modifies the cells color, while also playing an animation.
-func modify_color(offset: int) -> void:
-	assert(color_index + offset < level_gradient.colors)
-	assert(color_index + offset >= 0)
+func modify_color(target_primary_color: int) -> void:
+	assert(can_modify_color(target_primary_color))
+	var primary_color_id := level_gradient.primary_color_to_color(target_primary_color)
+	var a := posmod(primary_color_id - color_index, level_gradient.colors)
+	var b := posmod(color_index - primary_color_id, level_gradient.colors)
+	var offset: int
+	if level_gradient.primary_colors == 2:
+		offset = -1 if target_primary_color == 0 else 1
+	else:
+		offset = -1 if a > b else 1
 
 	color_index += offset
+	color_index = posmod(color_index, level_gradient.colors)
 	
 	visual_node.reset_visual()
 	$AnimationTimer.stop()
@@ -149,7 +168,7 @@ func damage_garbage() -> void:
 	garbage_health -= 1
 	$AnimationPlayer.play("garbage_damage")
 	var tween := create_tween()
-	tween.tween_property($Visual, "modulate", get_cell_target_color(), 0.2)
+	tween.tween_property($Visual, "modulate", get_cell_target_color(), 0.15)
 	await tween.finished
 	if garbage_health <= 0:
 		queue_free()

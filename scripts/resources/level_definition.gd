@@ -2,7 +2,7 @@
 class_name LevelDefinition
 extends Resource
 
-## Level gradient to use for this level
+## Level gradient to use for this level.
 @export var gradient: LevelGradient
 ## How long until block turn into garbage in seconds.
 @export var garbage_time_seconds: float = 120.0

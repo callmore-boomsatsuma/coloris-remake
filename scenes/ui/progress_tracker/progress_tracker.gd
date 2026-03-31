@@ -25,5 +25,5 @@ func _on_board_manager_add_progress(colors: Dictionary[int, int]) -> void:
 	add_progress(colors)
 
 
-func _on_board_manager_update_next_color(new_color: int) -> void:
-	border_color = LevelManager.level.gradient.get_color(new_color)
+func _on_board_manager_update_next_color(new_color: Color) -> void:
+	border_color = new_color

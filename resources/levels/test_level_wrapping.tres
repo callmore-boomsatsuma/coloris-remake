@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="LevelDefinition" format=3 uid="uid://c3y67w16myayx"]
+
+[ext_resource type="Script" uid="uid://4ybes5rqtte4" path="res://scripts/resources/level_gradient.gd" id="1_qjgur"]
+[ext_resource type="Script" uid="uid://gahviu7p01gd" path="res://scripts/resources/level_definition.gd" id="1_wtbs4"]
+
+[sub_resource type="Gradient" id="Gradient_c88bs"]
+interpolation_mode = 2
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.33333334, 0.6666667, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 6
+
+[sub_resource type="Resource" id="Resource_rdfyk"]
+script = ExtResource("1_qjgur")
+gradient = SubResource("Gradient_c88bs")
+colors = 6
+primary_colors = 3
+metadata/_custom_type_script = "uid://4ybes5rqtte4"
+
+[resource]
+script = ExtResource("1_wtbs4")
+gradient = SubResource("Resource_rdfyk")
+metadata/_custom_type_script = "uid://gahviu7p01gd"

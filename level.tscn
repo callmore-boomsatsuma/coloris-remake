@@ -2,20 +2,67 @@
 
 [ext_resource type="AudioStream" uid="uid://bhahmhtralomy" path="res://resources/sounds/origanal/snd_fall_1.wav" id="2_aicyk"]
 [ext_resource type="Script" uid="uid://c5f6fc2ilnp2l" path="res://scripts/board_manager.gd" id="2_oi3di"]
+[ext_resource type="AudioStream" uid="uid://xtibnh1xknwg" path="res://resources/sounds/origanal/snd_hover_1.wav" id="2_qw2y7"]
 [ext_resource type="AudioStream" uid="uid://26i5xmp5viks" path="res://resources/sounds/origanal/snd_fall_2.wav" id="3_8b0r0"]
+[ext_resource type="AudioStream" uid="uid://v58j8eqmkb8t" path="res://resources/sounds/origanal/snd_hover_2.wav" id="3_uuqa8"]
 [ext_resource type="PackedScene" uid="uid://c7hvw6ini5ssu" path="res://scenes/cursor/cursor.tscn" id="4_0b4ue"]
 [ext_resource type="AudioStream" uid="uid://cguvc1822wkpo" path="res://resources/sounds/origanal/snd_fall_3.wav" id="4_h6smj"]
+[ext_resource type="AudioStream" uid="uid://g6m6ver456m0" path="res://resources/sounds/origanal/snd_hover_3.wav" id="4_samc1"]
 [ext_resource type="PackedScene" uid="uid://tno20qdr1s6x" path="res://scenes/ui/progress_tracker/progress_tracker.tscn" id="5_1ainy"]
+[ext_resource type="AudioStream" uid="uid://bk5vbhl5qlroc" path="res://resources/sounds/origanal/snd_hover_4.wav" id="5_oaehd"]
 [ext_resource type="AudioStream" uid="uid://70jbjmacmywk" path="res://resources/sounds/origanal/snd_fall_4.wav" id="5_v5j5c"]
 [ext_resource type="AudioStream" uid="uid://c4lbbocl8rnn0" path="res://resources/sounds/origanal/snd_fall_5.wav" id="6_5pxul"]
+[ext_resource type="AudioStream" uid="uid://niass8l31h2m" path="res://resources/sounds/origanal/snd_hover_5.wav" id="6_f8y3u"]
+[ext_resource type="AudioStream" uid="uid://bkt1mi18vlidh" path="res://resources/sounds/origanal/snd_hover_6.wav" id="7_0k1o5"]
 [ext_resource type="AudioStream" uid="uid://ddvfxoq7rhhsi" path="res://resources/sounds/origanal/snd_fall_6.wav" id="7_fedht"]
 [ext_resource type="AudioStream" uid="uid://dry1vo3srplv0" path="res://resources/sounds/origanal/snd_fall_7.wav" id="8_4c15r"]
+[ext_resource type="AudioStream" uid="uid://ba2w37rsp04fi" path="res://resources/sounds/origanal/snd_hover_7.wav" id="8_k1ecl"]
+[ext_resource type="AudioStream" uid="uid://bd8ak8ltplug6" path="res://resources/sounds/origanal/snd_hover_8.wav" id="9_8kok0"]
 [ext_resource type="AudioStream" uid="uid://btu4a2uaqlwop" path="res://resources/sounds/origanal/snd_fall_8.wav" id="9_ait7k"]
 [ext_resource type="AudioStream" uid="uid://cw60scow4waih" path="res://resources/sounds/origanal/snd_fall_9.wav" id="10_42xju"]
+[ext_resource type="AudioStream" uid="uid://crgecmbvy6i0u" path="res://resources/sounds/origanal/snd_hover_9.wav" id="10_lrhm2"]
+[ext_resource type="AudioStream" uid="uid://c54ix2hbmp4j4" path="res://resources/sounds/origanal/snd_garbage_convert_1.wav" id="11_fedht"]
+[ext_resource type="AudioStream" uid="uid://5u0yt285bee4" path="res://resources/sounds/origanal/snd_hover_10.wav" id="11_td4uw"]
+[ext_resource type="AudioStream" uid="uid://c5pwieeko0jbf" path="res://resources/sounds/origanal/snd_garbage_convert_2.wav" id="12_4c15r"]
+[ext_resource type="AudioStream" uid="uid://byrn8or8s1m18" path="res://resources/sounds/origanal/snd_hover_11.wav" id="12_r5f7e"]
+[ext_resource type="AudioStream" uid="uid://cgn3vocudth1j" path="res://resources/sounds/origanal/snd_garbage_convert_3.wav" id="13_ait7k"]
+[ext_resource type="AudioStream" uid="uid://bha6x6yu37ywu" path="res://resources/sounds/origanal/snd_hover_12.wav" id="13_wp8k7"]
+[ext_resource type="AudioStream" uid="uid://c00yvfq5jht16" path="res://resources/sounds/origanal/snd_garbage_convert_4.wav" id="14_42xju"]
+[ext_resource type="AudioStream" uid="uid://bs7de1h8pwyyq" path="res://resources/sounds/origanal/snd_hover_garbage.wav" id="14_uuqa8"]
+[ext_resource type="AudioStream" uid="uid://gx3cqgxvitqq" path="res://resources/sounds/origanal/snd_unknown_hover_garbage.wav" id="15_oaehd"]
+[ext_resource type="AudioStream" uid="uid://cp0vce5j4nj04" path="res://resources/sounds/origanal/snd_garbage_convert_5.wav" id="15_v7sqt"]
+[ext_resource type="AudioStream" uid="uid://bashp3cy3qpxj" path="res://resources/sounds/origanal/snd_invalid_move.wav" id="16_ait7k"]
+[ext_resource type="AudioStream" uid="uid://dj5eufvi385op" path="res://resources/sounds/origanal/snd_unknown_hover_empty.wav" id="16_f8y3u"]
+[ext_resource type="AudioStream" uid="uid://hh0s73nmjsw3" path="res://resources/sounds/origanal/snd_clear.wav" id="17_42xju"]
+[ext_resource type="AudioStream" uid="uid://c3eookiy6yiir" path="res://resources/sounds/origanal/snd_clear_lower.wav" id="18_ilwjd"]
+[ext_resource type="AudioStream" uid="uid://cg5jaxbj30ujr" path="res://resources/sounds/origanal/snd_change_cell.wav" id="19_y3bce"]
+[ext_resource type="AudioStream" uid="uid://bayn0vtu8tlcg" path="res://resources/sounds/origanal/snd_change_cell_lower.wav" id="20_u3yai"]
+[ext_resource type="AudioStream" uid="uid://dgtsr5iaw4g5o" path="res://resources/sounds/origanal/snd_garbage_clear_1.wav" id="21_u3yai"]
+[ext_resource type="AudioStream" uid="uid://w3o4h8e0pbqh" path="res://resources/sounds/origanal/snd_garbage_clear_2.wav" id="22_fj6e6"]
+[ext_resource type="Script" uid="uid://b1je50f0xx7wm" path="res://scripts/score_counter.gd" id="40_0k1o5"]
+[ext_resource type="FontFile" uid="uid://cdmts3suyhjyq" path="res://resources/fonts/kiloton/KILOTON1.TTF" id="40_f8y3u"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_samc1"]
+playback_mode = 1
+streams_count = 2
+stream_0/stream = ExtResource("14_uuqa8")
+stream_1/stream = ExtResource("15_oaehd")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ilwjd"]
+streams_count = 5
+stream_0/stream = ExtResource("11_fedht")
+stream_1/stream = ExtResource("12_4c15r")
+stream_2/stream = ExtResource("13_ait7k")
+stream_3/stream = ExtResource("14_42xju")
+stream_4/stream = ExtResource("15_v7sqt")
 
 [sub_resource type="Environment" id="Environment_1ainy"]
 background_mode = 3
 glow_enabled = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_0k1o5"]
+font = ExtResource("40_f8y3u")
+font_size = 24
 
 [node name="Level" type="Node2D" unique_id=1204994135]
 
@@ -25,7 +72,7 @@ offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="BoardManager" type="Node2D" parent="." unique_id=2036369727 node_paths=PackedStringArray("cursor_node", "offscreen_node_spawn_point", "drop_sounds")]
+[node name="BoardManager" type="Node2D" parent="." unique_id=2036369727 node_paths=PackedStringArray("cursor_node", "offscreen_node_spawn_point", "scoretracker_node", "drop_sounds", "change_cell_sound", "change_cell_sound_garbage", "invalid_move_sound", "clear_sound", "clear_sound_garbage", "garbage_convert_sound", "garbage_clear_damaged", "garbage_clear_removed", "cell_hover_sound_player")]
 position = Vector2(576, 324)
 script = ExtResource("2_oi3di")
 board_size = Vector2i(12, 9)
@@ -33,7 +80,20 @@ cell_size = Vector2(52, 52)
 cell_gap = Vector2(12, 12)
 cursor_node = NodePath("../Cursor")
 offscreen_node_spawn_point = NodePath("../CellSpawnMarker")
+scoretracker_node = NodePath("../ScoreCounter")
 drop_sounds = [NodePath("DropSound0"), NodePath("DropSound1"), NodePath("DropSound2"), NodePath("DropSound3"), NodePath("DropSound4"), NodePath("DropSound5"), NodePath("DropSound6"), NodePath("DropSound7"), NodePath("DropSound8")]
+change_cell_sound = NodePath("ChangeCellSound")
+change_cell_sound_garbage = NodePath("ChangeCellSoundGarbage")
+invalid_move_sound = NodePath("SndInvalidMove")
+clear_sound = NodePath("ClearSound")
+clear_sound_garbage = NodePath("ClearSoundGarbage")
+garbage_convert_sound = NodePath("GarbageConvertSound")
+garbage_clear_damaged = NodePath("SndGarbageClear1")
+garbage_clear_removed = NodePath("SndGarbageClear2")
+cell_hover_sounds = Array[AudioStream]([ExtResource("2_qw2y7"), ExtResource("3_uuqa8"), ExtResource("4_samc1"), ExtResource("5_oaehd"), ExtResource("6_f8y3u"), ExtResource("7_0k1o5"), ExtResource("8_k1ecl"), ExtResource("9_8kok0"), ExtResource("10_lrhm2"), ExtResource("11_td4uw"), ExtResource("12_r5f7e"), ExtResource("13_wp8k7")])
+cell_hover_garbage_sound = SubResource("AudioStreamRandomizer_samc1")
+cell_hover_empty_sound = ExtResource("16_f8y3u")
+cell_hover_sound_player = NodePath("HoverSoundPlayer")
 
 [node name="DropSound0" type="AudioStreamPlayer" parent="BoardManager" unique_id=101530710]
 stream = ExtResource("2_aicyk")
@@ -71,6 +131,35 @@ bus = &"Drop Sounds"
 stream = ExtResource("10_42xju")
 bus = &"Drop Sounds"
 
+[node name="GarbageConvertSound" type="AudioStreamPlayer" parent="BoardManager" unique_id=847590556]
+stream = SubResource("AudioStreamRandomizer_ilwjd")
+
+[node name="InvalidMoveSound" type="AudioStreamPlayer" parent="BoardManager" unique_id=137893802]
+stream = ExtResource("16_ait7k")
+
+[node name="ClearSound" type="AudioStreamPlayer" parent="BoardManager" unique_id=1565854837]
+stream = ExtResource("17_42xju")
+
+[node name="ClearSoundGarbage" type="AudioStreamPlayer" parent="BoardManager" unique_id=1511645908]
+stream = ExtResource("18_ilwjd")
+
+[node name="ChangeCellSound" type="AudioStreamPlayer" parent="BoardManager" unique_id=1906532168]
+stream = ExtResource("19_y3bce")
+
+[node name="ChangeCellSoundGarbage" type="AudioStreamPlayer" parent="BoardManager" unique_id=1938704228]
+stream = ExtResource("20_u3yai")
+
+[node name="SndGarbageClear1" type="AudioStreamPlayer" parent="BoardManager" unique_id=313903483]
+stream = ExtResource("21_u3yai")
+
+[node name="SndGarbageClear2" type="AudioStreamPlayer" parent="BoardManager" unique_id=1086195014]
+stream = ExtResource("22_fj6e6")
+
+[node name="SndInvalidMove" type="AudioStreamPlayer" parent="BoardManager" unique_id=2072851026]
+stream = ExtResource("16_ait7k")
+
+[node name="HoverSoundPlayer" type="AudioStreamPlayer" parent="BoardManager" unique_id=1637342090]
+
 [node name="Cursor" parent="." unique_id=687429603 instance=ExtResource("4_0b4ue")]
 position = Vector2(64, 64)
 scale = Vector2(1.2, 1.2)
@@ -82,6 +171,16 @@ position = Vector2(576, -64)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=502678393]
 environment = SubResource("Environment_1ainy")
+
+[node name="ScoreCounter" type="Label" parent="." unique_id=75084624]
+offset_left = 1044.0
+offset_top = 4.0
+offset_right = 1148.0
+offset_bottom = 29.0
+text = "0"
+label_settings = SubResource("LabelSettings_0k1o5")
+horizontal_alignment = 2
+script = ExtResource("40_0k1o5")
 
 [connection signal="add_progress" from="BoardManager" to="ProgressTracker" method="_on_board_manager_add_progress"]
 [connection signal="update_next_color" from="BoardManager" to="ProgressTracker" method="_on_board_manager_update_next_color"]
