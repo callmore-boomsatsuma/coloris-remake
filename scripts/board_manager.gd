@@ -1,6 +1,27 @@
 @tool
-
 extends Node2D
+
+
+signal add_progress(colors: Dictionary[int, int])
+signal input_lock_changed(new_input_lock_state: bool)
+signal move_cursor(new_global_cursor_pos: Vector2)
+signal update_color_queue(color_queue: Array[int])
+
+
+const Cell := preload("res://scenes/cell/cell.gd")
+const cell_scene := preload("res://scenes/cell/cell.tscn")
+const ScoreCounter := preload("res://scripts/score_counter.gd")
+const SURROUNDING_CELL_OFFSETS := [
+	Vector2i.UP + Vector2i.LEFT,
+	Vector2i.UP,
+	Vector2i.UP + Vector2i.RIGHT,
+	Vector2i.LEFT,
+	Vector2i.RIGHT,
+	Vector2i.DOWN + Vector2i.LEFT,
+	Vector2i.DOWN,
+	Vector2i.DOWN + Vector2i.RIGHT,
+]
+
 
 @export var board_size := Vector2i(5, 5):
 	set(value):
@@ -15,70 +36,30 @@ extends Node2D
 		cell_gap = value
 		queue_redraw()
 
-const Cell := preload("res://scenes/cell/cell.gd")
-const cell_scene := preload("res://scenes/cell/cell.tscn")
-
-const ScoreCounter := preload("res://scripts/score_counter.gd")
-
 @export var offscreen_node_spawn_point: Node2D
-
 @export var scoretracker_node: ScoreCounter
 
 @export_category("Sounds")
-@export var drop_sounds: Array[AudioStreamPlayer] = []
-@export var change_cell_sound: AudioStreamPlayer
-@export var change_cell_sound_garbage: AudioStreamPlayer
-@export var invalid_move_sound: AudioStreamPlayer
-@export var clear_sound: AudioStreamPlayer
-@export var clear_sound_garbage: AudioStreamPlayer
-@export var garbage_convert_sound: AudioStreamPlayer
-
-@export var garbage_clear_damaged: AudioStreamPlayer
-@export var garbage_clear_removed: AudioStreamPlayer
-
 @export var cell_hover_sounds: Array[AudioStream]
 @export var cell_hover_garbage_sound: AudioStream
 @export var cell_hover_empty_sound: AudioStream
 @export var cell_hover_sound_player: AudioStreamPlayer
+@export var change_cell_sound: AudioStreamPlayer
+@export var change_cell_sound_garbage: AudioStreamPlayer
+@export var clear_sound: AudioStreamPlayer
+@export var clear_sound_garbage: AudioStreamPlayer
+@export var drop_sounds: Array[AudioStreamPlayer] = []
+@export var garbage_convert_sound: AudioStreamPlayer
+@export var garbage_clear_damaged: AudioStreamPlayer
+@export var garbage_clear_removed: AudioStreamPlayer
+@export var invalid_move_sound: AudioStreamPlayer
+
 
 var board: Array[Cell] = []
-
-var cursor_position := Vector2i.ZERO
-
-var input_locked := false
-
 var color_queue: Array[int] = []
-
+var cursor_position := Vector2i.ZERO
+var input_locked := false
 var score := 0
-
-signal move_cursor(new_global_cursor_pos: Vector2)
-signal input_lock_changed(new_input_lock_state: bool)
-signal update_color_queue(color_queue: Array[int])
-signal add_progress(colors: Dictionary[int, int])
-
-const SURROUNDING_CELL_OFFSETS := [
-	Vector2i.UP + Vector2i.LEFT,
-	Vector2i.UP,
-	Vector2i.UP + Vector2i.RIGHT,
-	Vector2i.LEFT,
-	Vector2i.RIGHT,
-	Vector2i.DOWN + Vector2i.LEFT,
-	Vector2i.DOWN,
-	Vector2i.DOWN + Vector2i.RIGHT,
-]
-
-
-func create_cell(loc: Vector2i, color_index: int) -> Cell:
-	var cell := cell_scene.instantiate() as Cell
-	cell.board_position = loc
-	cell.global_position = get_cell_offset(loc) + global_position
-	cell.level_gradient = LevelManager.level.gradient
-	cell.set_color_index(color_index)
-	return cell
-
-
-func get_random_color_index() -> int:
-	return randi_range(0, LevelManager.level.gradient.colors - 1)
 
 
 func _ready() -> void:
@@ -95,6 +76,7 @@ func _ready() -> void:
 		color_queue.push_back(pick_random_primary_color())
 	
 	update_ui()
+
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -215,34 +197,27 @@ func _draw() -> void:
 				draw_circle(get_cell_offset(Vector2(x, y)), 4, Color.BLUE)
 
 
-## Returns if the location is in-bounds of the board.
-func is_loc_in_bounds(loc: Vector2i) -> bool:
-	return not ((loc.x < 0) or (loc.x >= board_size.x) or (loc.y < 0) or (loc.y >= board_size.y))
+func advance_color_queue() -> void:
+	color_queue.pop_front()
+	color_queue.push_back(pick_random_primary_color())
+
+
+## Continuously applies gravity to the entire board until it settles.
+## Awaits a small delay between cycles.
+func apply_gravity_and_refill() -> void:
+	while true:
+		var done_something := false
+		for column in range(board_size.x):
+			done_something = column_apply_gravity_and_refill(column) or done_something
+		if not done_something:
+			break
+		await get_tree().create_timer(0.2).timeout
 
 
 ## Converts a Vector2i board location to an index.
 func board_loc_to_index(loc: Vector2i) -> int:
 	assert(is_loc_in_bounds(loc), "loc out of bounds! (board_size = %s, loc = %s)" % [board_size, loc])
 	return loc.y * board_size.x + loc.x
-
-
-func cell_at(loc: Vector2i) -> Cell:
-	return board[board_loc_to_index(loc)]
-
-
-## Returns if a cell is null or out of bounds.
-func is_cell_empty(loc: Vector2i) -> bool:
-	if not is_loc_in_bounds(loc):
-		return false
-	return cell_at(loc) == null
-
-
-func is_cell_garbage(loc: Vector2i) -> bool:
-	return cell_at(loc).is_garbage
-
-
-func is_cell_immovable(loc: Vector2i) -> bool:
-	return cell_at(loc).is_garbage
 
 
 func can_cell_fall(loc: Vector2i) -> bool:
@@ -269,6 +244,35 @@ func cell_apply_gravity(loc: Vector2i) -> void:
 	board[board_loc_to_index(target_loc)] = cell
 	board[board_loc_to_index(loc)] = null
 	fall_cell_y(cell, target_loc)
+
+
+func cell_at(loc: Vector2i) -> Cell:
+	return board[board_loc_to_index(loc)]
+
+
+func check_for_clears(offset: Vector2i) -> Array[Vector2i]:
+	if not is_loc_in_bounds(offset):
+		# impossible to contain any matches if offset is larger than the grid.
+		return []
+	var checked: Array[Vector2i] = []
+	for row in range((board_size - offset).y):
+		for column in range((board_size - offset).x):
+			var loc := Vector2i(column, row)
+			if loc in checked:
+				continue
+			if is_cell_empty(loc):
+				continue
+			var initial_cell := cell_at(loc)
+			if initial_cell.is_garbage:
+				continue
+			var connected := 1
+			while is_loc_in_bounds(loc + (offset * connected)) and not is_cell_empty(loc + (offset * connected)) and not is_cell_garbage(loc + (offset * connected)) and cell_at(loc + (offset * connected)).color_index == initial_cell.color_index:
+				connected += 1
+			if connected < 3:
+				continue
+			for i in range(connected):
+				checked.push_back(loc + (offset * i))
+	return checked
 
 ## Applies gravity to a column, and refills it if it has space at the top.
 ## Returns true if something happened.
@@ -297,37 +301,24 @@ func column_apply_gravity_and_refill(column: int) -> bool:
 	return false
 
 
+func create_cell(loc: Vector2i, color_index: int) -> Cell:
+	var cell := cell_scene.instantiate() as Cell
+	cell.board_position = loc
+	cell.global_position = get_cell_offset(loc) + global_position
+	cell.level_gradient = LevelManager.level.gradient
+	cell.set_color_index(color_index)
+	return cell
+
+
 func fall_cell_y(cell: Cell, relocation_target: Vector2i) -> void:
 	await cell.relocate_to(get_cell_offset(relocation_target) + global_position)
 	# cell.play_drop_sound(sound_height_pitches[relocation_target.y])
 	play_drop_sound((board_size.y - 1) - relocation_target.y)
 
 
-func play_drop_sound(height: int) -> void:
-	# if drop_sounds[height].playing:
-	# 	return
-	drop_sounds[height].play()
-
-
-## Continuously applies gravity to the entire board until it settles.
-## Awaits a small delay between cycles.
-func apply_gravity_and_refill() -> void:
-	while true:
-		var done_something := false
-		for column in range(board_size.x):
-			done_something = column_apply_gravity_and_refill(column) or done_something
-		if not done_something:
-			break
-		await get_tree().create_timer(0.2).timeout
-
-
-func reset_garbage_progress(loc: Vector2i) -> void:
-	if is_cell_empty(loc):
-		return
-	if is_cell_garbage(loc):
-		return
-	var cell := cell_at(loc)
-	cell.garbage_progress = 0
+func find_clears() -> Array[Vector2i]:
+	var clear_arrays := check_for_clears(Vector2i.DOWN) + check_for_clears(Vector2i.RIGHT)
+	return clear_arrays
 
 
 ## Calculates the offset of a cell relative to the center of this node.
@@ -337,64 +328,13 @@ func get_cell_offset(loc: Vector2) -> Vector2:
 	return (loc * cell_total_size) - (board_total_size / 2) + (cell_size / 2)
 
 
-## Updates the position of the cursor.
-func update_ui() -> void:
-	move_cursor.emit(global_position + get_cell_offset(cursor_position))
-	update_color_queue.emit(color_queue)
-
-
-## Returns a valid cursor color from the current level gradient.
-## Will return either 0 or 1 for non looping levels,
-## or an even distrubution of colors between 0 and the amount of primary colors - 1 for looping levels.
-func pick_random_primary_color() -> int:
-	# TODO: Implement looping level functionality
-	return randi_range(0, LevelManager.level.gradient.primary_colors - 1)
-
-
-func advance_color_queue() -> void:
-	color_queue.pop_front()
-	color_queue.push_back(pick_random_primary_color())
-
-
-func reset_selected_cell() -> void:
-	var cell := get_selected_cell()
-	if cell == null:
-		return
-	cell.select_cell()
+func get_random_color_index() -> int:
+	return randi_range(0, LevelManager.level.gradient.colors - 1)
 
 
 func get_selected_cell() -> Cell:
 	return cell_at(cursor_position)
 
-
-func find_clears() -> Array[Vector2i]:
-	var clear_arrays := check_for_clears(Vector2i.DOWN) + check_for_clears(Vector2i.RIGHT)
-	return clear_arrays
-
-
-func check_for_clears(offset: Vector2i) -> Array[Vector2i]:
-	if not is_loc_in_bounds(offset):
-		# impossible to contain any matches if offset is larger than the grid.
-		return []
-	var checked: Array[Vector2i] = []
-	for row in range((board_size - offset).y):
-		for column in range((board_size - offset).x):
-			var loc := Vector2i(column, row)
-			if loc in checked:
-				continue
-			if is_cell_empty(loc):
-				continue
-			var initial_cell := cell_at(loc)
-			if initial_cell.is_garbage:
-				continue
-			var connected := 1
-			while is_loc_in_bounds(loc + (offset * connected)) and not is_cell_empty(loc + (offset * connected)) and not is_cell_garbage(loc + (offset * connected)) and cell_at(loc + (offset * connected)).color_index == initial_cell.color_index:
-				connected += 1
-			if connected < 3:
-				continue
-			for i in range(connected):
-				checked.push_back(loc + (offset * i))
-	return checked
 
 ## Checks the entire board if any cell is garbage.
 func is_any_garbage() -> bool:
@@ -405,8 +345,40 @@ func is_any_garbage() -> bool:
 			return true
 	return false
 
-func update_score_tracker() -> void:
-	scoretracker_node.update_score(score * 10)
+
+## Returns if a cell is null or out of bounds.
+func is_cell_empty(loc: Vector2i) -> bool:
+	if not is_loc_in_bounds(loc):
+		return false
+	return cell_at(loc) == null
+
+
+func is_cell_garbage(loc: Vector2i) -> bool:
+	return cell_at(loc).is_garbage
+
+
+func is_cell_immovable(loc: Vector2i) -> bool:
+	return cell_at(loc).is_garbage
+
+
+## Returns if the location is in-bounds of the board.
+func is_loc_in_bounds(loc: Vector2i) -> bool:
+	return not ((loc.x < 0) or (loc.x >= board_size.x) or (loc.y < 0) or (loc.y >= board_size.y))
+
+
+## Returns a valid cursor color from the current level gradient.
+## Will return either 0 or 1 for non looping levels,
+## or an even distrubution of colors between 0 and the amount of primary colors - 1 for looping levels.
+func pick_random_primary_color() -> int:
+	# TODO: Implement looping level functionality
+	return randi_range(0, LevelManager.level.gradient.primary_colors - 1)
+
+
+func play_drop_sound(height: int) -> void:
+	# if drop_sounds[height].playing:
+	# 	return
+	drop_sounds[height].play()
+
 
 func play_hover_sound(loc: Vector2i) -> void:
 	var target_sound: AudioStream
@@ -420,3 +392,28 @@ func play_hover_sound(loc: Vector2i) -> void:
 	cell_hover_sound_player.stream = target_sound
 	cell_hover_sound_player.play()
 
+
+func reset_garbage_progress(loc: Vector2i) -> void:
+	if is_cell_empty(loc):
+		return
+	if is_cell_garbage(loc):
+		return
+	var cell := cell_at(loc)
+	cell.garbage_progress = 0
+
+
+func reset_selected_cell() -> void:
+	var cell := get_selected_cell()
+	if cell == null:
+		return
+	cell.select_cell()
+
+
+func update_score_tracker() -> void:
+	scoretracker_node.update_score(score * 10)
+
+
+## Updates the position of the cursor.
+func update_ui() -> void:
+	move_cursor.emit(global_position + get_cell_offset(cursor_position))
+	update_color_queue.emit(color_queue)
