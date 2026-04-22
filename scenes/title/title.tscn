@@ -1,0 +1,271 @@
+[gd_scene format=3 uid="uid://bv7xysxq1qhae"]
+
+[ext_resource type="FontFile" uid="uid://b2rdjopfbyhvm" path="res://resources/fonts/benn/Benn Regular.otf" id="1_5vtrw"]
+[ext_resource type="PackedScene" uid="uid://by3kpwqf1sxrj" path="res://scenes/cell/cell.tscn" id="2_ds13r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ds13r"]
+line_spacing = 0.0
+font = ExtResource("1_5vtrw")
+font_size = 96
+
+[sub_resource type="LabelSettings" id="LabelSettings_5vtrw"]
+font = ExtResource("1_5vtrw")
+font_size = 32
+
+[node name="Title" type="Control" unique_id=1202522593]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="." unique_id=932860019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="VBoxContainer" parent="." unique_id=1449492998]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.45
+anchor_right = 0.5
+anchor_bottom = 0.45
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TopCellRow" type="HBoxContainer" parent="Control" unique_id=1303239535]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Control" type="Control" parent="Control/TopCellRow" unique_id=1855588813]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control" unique_id=1925204441 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control2" type="Control" parent="Control/TopCellRow" unique_id=1676617139]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control2" unique_id=2085875039 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control3" type="Control" parent="Control/TopCellRow" unique_id=931769967]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control3" unique_id=651162541 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control4" type="Control" parent="Control/TopCellRow" unique_id=457937413]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control4" unique_id=1831395378 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control5" type="Control" parent="Control/TopCellRow" unique_id=1127680405]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control5" unique_id=774842383 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control6" type="Control" parent="Control/TopCellRow" unique_id=330793290]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control6" unique_id=1028701183 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control7" type="Control" parent="Control/TopCellRow" unique_id=1866295579]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control7" unique_id=1817218393 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control8" type="Control" parent="Control/TopCellRow" unique_id=2005610995]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control8" unique_id=884700110 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control9" type="Control" parent="Control/TopCellRow" unique_id=161198132]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control9" unique_id=638068586 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control10" type="Control" parent="Control/TopCellRow" unique_id=912658125]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control10" unique_id=748386591 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control11" type="Control" parent="Control/TopCellRow" unique_id=1511695155]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control11" unique_id=291977853 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control12" type="Control" parent="Control/TopCellRow" unique_id=453197634]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control12" unique_id=1822535146 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control13" type="Control" parent="Control/TopCellRow" unique_id=2062819646]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control13" unique_id=945314086 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control14" type="Control" parent="Control/TopCellRow" unique_id=242197489]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/TopCellRow/Control14" unique_id=1149459620 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="TitleLabel" type="Label" parent="Control" unique_id=427346937]
+layout_mode = 2
+text = "COLORIS"
+label_settings = SubResource("LabelSettings_ds13r")
+horizontal_alignment = 1
+
+[node name="BottomCellRow" type="HBoxContainer" parent="Control" unique_id=499896284]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Control" type="Control" parent="Control/BottomCellRow" unique_id=1843193233]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control" unique_id=75712583 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control2" type="Control" parent="Control/BottomCellRow" unique_id=2045287749]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control2" unique_id=2014773339 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control3" type="Control" parent="Control/BottomCellRow" unique_id=592587138]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control3" unique_id=1006736801 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control4" type="Control" parent="Control/BottomCellRow" unique_id=90713507]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control4" unique_id=1456560404 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control5" type="Control" parent="Control/BottomCellRow" unique_id=480306563]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control5" unique_id=1950809172 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control6" type="Control" parent="Control/BottomCellRow" unique_id=1471364662]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control6" unique_id=1647591009 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control7" type="Control" parent="Control/BottomCellRow" unique_id=571550375]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control7" unique_id=338512703 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control8" type="Control" parent="Control/BottomCellRow" unique_id=378087953]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control8" unique_id=631310298 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control9" type="Control" parent="Control/BottomCellRow" unique_id=1060462355]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control9" unique_id=1123491156 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control10" type="Control" parent="Control/BottomCellRow" unique_id=1146935214]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control10" unique_id=2056350400 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control11" type="Control" parent="Control/BottomCellRow" unique_id=276098012]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control11" unique_id=823009478 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control12" type="Control" parent="Control/BottomCellRow" unique_id=555420765]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control12" unique_id=1182626013 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control13" type="Control" parent="Control/BottomCellRow" unique_id=952625141]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control13" unique_id=66029181 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="Control14" type="Control" parent="Control/BottomCellRow" unique_id=1647458533]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="Cell" parent="Control/BottomCellRow/Control14" unique_id=1356801603 instance=ExtResource("2_ds13r")]
+position = Vector2(32, 32)
+
+[node name="StartLabel" type="Label" parent="." unique_id=1985630035]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -147.0
+offset_top = -179.0
+offset_right = 147.0
+offset_bottom = -141.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press Enter"
+label_settings = SubResource("LabelSettings_5vtrw")
+horizontal_alignment = 1
+vertical_alignment = 1

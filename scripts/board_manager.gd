@@ -15,9 +15,6 @@ extends Node2D
 		cell_gap = value
 		queue_redraw()
 
-const Cursor := preload("res://scenes/cursor/cursor.gd")
-@export var cursor_node: Cursor
-
 const Cell := preload("res://scenes/cell/cell.gd")
 const cell_scene := preload("res://scenes/cell/cell.tscn")
 
@@ -29,7 +26,6 @@ const ScoreCounter := preload("res://scripts/score_counter.gd")
 
 @export_category("Sounds")
 @export var drop_sounds: Array[AudioStreamPlayer] = []
-@export_tool_button("test drop sounds") var test_drop_sounds = fn_test_drop_sounds
 @export var change_cell_sound: AudioStreamPlayer
 @export var change_cell_sound_garbage: AudioStreamPlayer
 @export var invalid_move_sound: AudioStreamPlayer
@@ -55,7 +51,9 @@ var color_queue: Array[int] = []
 
 var score := 0
 
-signal update_next_color(new_color: Color)
+signal move_cursor(new_global_cursor_pos: Vector2)
+signal input_lock_changed(new_input_lock_state: bool)
+signal update_color_queue(color_queue: Array[int])
 signal add_progress(colors: Dictionary[int, int])
 
 const SURROUNDING_CELL_OFFSETS := [
@@ -96,19 +94,13 @@ func _ready() -> void:
 	for i in range(2):
 		color_queue.push_back(pick_random_primary_color())
 	
-	update_cursor()
-	update_progress_tracker()
-
-func fn_test_drop_sounds() -> void:
-	for sound_id in range(drop_sounds.size()):
-		drop_sounds[sound_id].play()
-		await get_tree().create_timer(0.2).timeout
+	update_ui()
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
-	cursor_node.visible = not input_locked
+	input_lock_changed.emit(input_locked)
 	if input_locked:
 		return
 	
@@ -133,20 +125,9 @@ func _process(delta: float) -> void:
 	)
 
 	if input_vec != Vector2i.ZERO:
-		# MOVE!
-		# TODO: Play appropiate sound
 		cursor_position = Vector2i(posmod(cursor_position.x + input_vec.x, board_size.x), posmod(cursor_position.y + input_vec.y, board_size.y))
-		update_cursor()
-		var target_sound: AudioStream
-		if is_cell_empty(cursor_position):
-			target_sound = cell_hover_empty_sound
-		elif is_cell_garbage(cursor_position):
-			target_sound = cell_hover_garbage_sound
-		else:
-			var cell := cell_at(cursor_position)
-			target_sound = cell_hover_sounds[cell.color_index]
-		cell_hover_sound_player.stream = target_sound
-		cell_hover_sound_player.play()
+		update_ui()
+		play_hover_sound(cursor_position)
 		reset_selected_cell()
 	
 	if Input.is_action_just_pressed(&"apply_active_color"):
@@ -155,8 +136,6 @@ func _process(delta: float) -> void:
 			return
 
 		input_locked = true
-		## TODO: Handle this significantly better...
-		var target_color_direction := -1 if color_queue[0] == 0 else 1
 		if cell.can_modify_color(color_queue[0]):
 			if is_any_garbage():
 				change_cell_sound_garbage.play()
@@ -220,8 +199,7 @@ func _process(delta: float) -> void:
 				await apply_gravity_and_refill()
 
 			advance_color_queue()
-			update_cursor()
-			update_progress_tracker()
+			update_ui()
 		else:
 			invalid_move_sound.play()
 			await cell.vibrate()
@@ -360,12 +338,9 @@ func get_cell_offset(loc: Vector2) -> Vector2:
 
 
 ## Updates the position of the cursor.
-func update_cursor() -> void:
-	cursor_node.global_position = global_position + get_cell_offset(cursor_position)
-	cursor_node.color = LevelManager.level.gradient.get_primary_color(color_queue[0])
-
-func update_progress_tracker() -> void:
-	update_next_color.emit(LevelManager.level.gradient.get_primary_color(color_queue[1]))
+func update_ui() -> void:
+	move_cursor.emit(global_position + get_cell_offset(cursor_position))
+	update_color_queue.emit(color_queue)
 
 
 ## Returns a valid cursor color from the current level gradient.
@@ -393,10 +368,7 @@ func get_selected_cell() -> Cell:
 
 
 func find_clears() -> Array[Vector2i]:
-	var clears: Dictionary[Vector2i, bool] = {}
 	var clear_arrays := check_for_clears(Vector2i.DOWN) + check_for_clears(Vector2i.RIGHT)
-	# for clear in clear_arrays:
-	# 	clears[clear] = true
 	return clear_arrays
 
 
@@ -435,3 +407,16 @@ func is_any_garbage() -> bool:
 
 func update_score_tracker() -> void:
 	scoretracker_node.update_score(score * 10)
+
+func play_hover_sound(loc: Vector2i) -> void:
+	var target_sound: AudioStream
+	if is_cell_empty(loc):
+		target_sound = cell_hover_empty_sound
+	elif is_cell_garbage(loc):
+		target_sound = cell_hover_garbage_sound
+	else:
+		var cell := cell_at(loc)
+		target_sound = cell_hover_sounds[cell.color_index]
+	cell_hover_sound_player.stream = target_sound
+	cell_hover_sound_player.play()
+

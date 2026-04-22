@@ -19,14 +19,14 @@ extends Resource
 		emit_changed()
 
 ## How many primary colors are in this gradient. Must be less than `colors`.
-@export var primary_colors: int:
+@export_range(2, 16) var primary_colors: int:
 	set(value):
 		if primary_colors == value:
 			return
 		primary_colors = value
 		emit_changed()
 
-func _init(p_gradient: Gradient = null, p_colors: int = 0, p_primary_colors: int = 0) -> void:
+func _init(p_gradient: Gradient = null, p_colors: int = 2, p_primary_colors: int = 2) -> void:
 	gradient = p_gradient if p_gradient else Gradient.new()
 	colors = p_colors
 	primary_colors = p_primary_colors

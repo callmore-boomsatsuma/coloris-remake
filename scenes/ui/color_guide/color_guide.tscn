@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2abswiagf50s"]
+
+[ext_resource type="Script" uid="uid://da3c68mn5yo8l" path="res://scenes/ui/color_guide/color_guide.gd" id="1_5u8cf"]
+
+[node name="ColorGuide" type="Node2D" unique_id=1339679434]
+script = ExtResource("1_5u8cf")

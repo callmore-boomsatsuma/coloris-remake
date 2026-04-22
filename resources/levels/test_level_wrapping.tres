@@ -21,4 +21,5 @@ metadata/_custom_type_script = "uid://4ybes5rqtte4"
 [resource]
 script = ExtResource("1_wtbs4")
 gradient = SubResource("Resource_rdfyk")
+grid_size = Vector2i(9, 9)
 metadata/_custom_type_script = "uid://gahviu7p01gd"

@@ -1,6 +1,6 @@
 extends Node
 
-var level := (preload("res://resources/levels/debug_level_collection.tres") as LevelCollection).levels[0]
+var level := (preload("res://resources/levels/debug_level_collection.tres") as LevelCollection).levels[1]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

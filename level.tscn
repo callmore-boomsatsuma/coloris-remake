@@ -40,7 +40,8 @@
 [ext_resource type="AudioStream" uid="uid://dgtsr5iaw4g5o" path="res://resources/sounds/origanal/snd_garbage_clear_1.wav" id="21_u3yai"]
 [ext_resource type="AudioStream" uid="uid://w3o4h8e0pbqh" path="res://resources/sounds/origanal/snd_garbage_clear_2.wav" id="22_fj6e6"]
 [ext_resource type="Script" uid="uid://b1je50f0xx7wm" path="res://scripts/score_counter.gd" id="40_0k1o5"]
-[ext_resource type="FontFile" uid="uid://cdmts3suyhjyq" path="res://resources/fonts/kiloton/KILOTON1.TTF" id="40_f8y3u"]
+[ext_resource type="FontFile" uid="uid://b2rdjopfbyhvm" path="res://resources/fonts/benn/Benn Regular.otf" id="40_k1ecl"]
+[ext_resource type="PackedScene" uid="uid://c2abswiagf50s" path="res://scenes/ui/color_guide/color_guide.tscn" id="42_k1ecl"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_samc1"]
 playback_mode = 1
@@ -61,7 +62,7 @@ background_mode = 3
 glow_enabled = true
 
 [sub_resource type="LabelSettings" id="LabelSettings_0k1o5"]
-font = ExtResource("40_f8y3u")
+font = ExtResource("40_k1ecl")
 font_size = 24
 
 [node name="Level" type="Node2D" unique_id=1204994135]
@@ -182,5 +183,11 @@ label_settings = SubResource("LabelSettings_0k1o5")
 horizontal_alignment = 2
 script = ExtResource("40_0k1o5")
 
+[node name="ColorGuide" parent="." unique_id=1339679434 instance=ExtResource("42_k1ecl")]
+
 [connection signal="add_progress" from="BoardManager" to="ProgressTracker" method="_on_board_manager_add_progress"]
-[connection signal="update_next_color" from="BoardManager" to="ProgressTracker" method="_on_board_manager_update_next_color"]
+[connection signal="input_lock_changed" from="BoardManager" to="Cursor" method="_on_board_manager_input_lock_changed"]
+[connection signal="move_cursor" from="BoardManager" to="Cursor" method="_on_board_manager_move_cursor"]
+[connection signal="update_color_queue" from="BoardManager" to="Cursor" method="_on_board_manager_update_color_queue"]
+[connection signal="update_color_queue" from="BoardManager" to="ProgressTracker" method="_on_board_manager_update_color_queue"]
+[connection signal="update_color_queue" from="BoardManager" to="ColorGuide" method="_on_board_manager_update_color_queue"]

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LevelGradient" format=3 uid="uid://b50yp131ly8tw"]
 
-[ext_resource type="Script" uid="uid://4ybes5rqtte4" path="res://scripts/resources/level_gradient.gd" id="1_isjps"]
+[ext_resource type="Script" uid="uid://4ybes5rqtte4" path="res://scripts/resources/level_gradient.gd" id="1_lnfo2"]
 
 [sub_resource type="Gradient" id="Gradient_u52ul"]
 interpolation_color_space = 2
@@ -10,7 +10,7 @@ metadata/_snap_enabled = true
 metadata/_snap_count = 2
 
 [resource]
-script = ExtResource("1_isjps")
+script = ExtResource("1_lnfo2")
 gradient = SubResource("Gradient_u52ul")
 colors = 4
 primary_colors = 2
