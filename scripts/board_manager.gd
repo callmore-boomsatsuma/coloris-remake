@@ -211,7 +211,7 @@ func apply_gravity_and_refill() -> void:
 			done_something = column_apply_gravity_and_refill(column) or done_something
 		if not done_something:
 			break
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(0.19).timeout
 
 
 ## Converts a Vector2i board location to an index.
@@ -375,8 +375,6 @@ func pick_random_primary_color() -> int:
 
 
 func play_drop_sound(height: int) -> void:
-	# if drop_sounds[height].playing:
-	# 	return
 	drop_sounds[height].play()
 
 

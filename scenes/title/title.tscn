@@ -1,15 +1,12 @@
 [gd_scene format=3 uid="uid://bv7xysxq1qhae"]
 
-[ext_resource type="FontFile" uid="uid://b2rdjopfbyhvm" path="res://resources/fonts/benn/Benn Regular.otf" id="1_5vtrw"]
 [ext_resource type="PackedScene" uid="uid://by3kpwqf1sxrj" path="res://scenes/cell/cell.tscn" id="2_ds13r"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ds13r"]
 line_spacing = 0.0
-font = ExtResource("1_5vtrw")
 font_size = 96
 
 [sub_resource type="LabelSettings" id="LabelSettings_5vtrw"]
-font = ExtResource("1_5vtrw")
 font_size = 32
 
 [node name="Title" type="Control" unique_id=1202522593]

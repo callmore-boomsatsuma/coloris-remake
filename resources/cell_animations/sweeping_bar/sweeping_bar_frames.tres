@@ -244,7 +244,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("60_xgj43")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 60.0
 }]
